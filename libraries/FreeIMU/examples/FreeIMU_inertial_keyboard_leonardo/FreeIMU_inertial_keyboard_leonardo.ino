@@ -4,13 +4,14 @@
  * and roll using the FreeIMU library sensor fusion and use them to move the
  * mouse cursor. The Keyboard is emulated by the Arduino Leonardo using the Keyboard
  * library.
- * 
+ *
  * @author Fabio Varesano - fvaresano@yahoo.it
 */
 
 #include <ADXL345.h>
 #include <HMC58X3.h>
 #include <ITG3200.h>
+#include <L3G4200D.h>
 #include <bma180.h>
 #include <MS561101BA.h>
 #include <I2Cdev.h>
@@ -22,6 +23,7 @@
 #include "FreeIMU.h"
 #include "CommunicationUtils.h"
 #include <Wire.h>
+#include <SPI.h>
 
 #include <math.h>
 
@@ -36,50 +38,47 @@ void setup() {
   Keyboard.begin();
   //Serial.begin(115200);
   Wire.begin();
-  
+
   my3IMU.init(true);
 }
 
 
 void loop() {
-  
+
   my3IMU.getYawPitchRoll(ypr);
-  
+
   // scale angles to mouse movements. You can replace 10 with whatever feels adeguate for you.
   // biggere values mean faster movements
 //   int x = map(ypr[1], -90, 90, -10, 10);
 //   int y = map(ypr[2], -90, 90, -10, 10);
-  
-  
+
+
   if(ypr[1] < -angleThreshold) {
     Keyboard.press( KEY_LEFT_ARROW );
   }
   else {
     Keyboard.release( KEY_LEFT_ARROW );
   }
-  
+
   if(ypr[1] > angleThreshold) {
     Keyboard.press( KEY_RIGHT_ARROW );
   }
   else {
     Keyboard.release( KEY_RIGHT_ARROW );
   }
-  
+
   if(ypr[2] < -angleThreshold) {
     Keyboard.press( KEY_UP_ARROW );
   }
   else {
     Keyboard.release( KEY_UP_ARROW );
   }
-  
+
   if(ypr[2] > angleThreshold) {
     Keyboard.press( KEY_DOWN_ARROW );
   }
   else {
     Keyboard.release( KEY_UP_ARROW );
   }
-  
+
 }
-
-
-
