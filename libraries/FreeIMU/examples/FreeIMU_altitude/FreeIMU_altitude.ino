@@ -46,10 +46,10 @@ float val[11];
 // Set the default object
 FreeIMU my3IMU = FreeIMU();
 
-void setup() { 
+void setup() {
   Serial.begin(115200);
   Wire.begin();
-  
+
   delay(500);
   my3IMU.init(true); // the parameter enable or disable fast mode
   delay(500);
