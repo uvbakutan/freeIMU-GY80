@@ -6,6 +6,7 @@
 #include <bma180.h>
 #include <HMC58X3.h>
 #include <ITG3200.h>
+#include <L3G4200D.h>
 #include <MS561101BA.h>
 #include <I2Cdev.h>
 #include <MPU60X0.h>
@@ -35,7 +36,7 @@ void setup() {
   Serial.begin(115200);
   Wire.begin();
   my3IMU.init(true);
-  
+
   // LED
   pinMode(13, OUTPUT);
 }
@@ -61,7 +62,7 @@ void loop() {
     else if(cmd=='b') {
       uint8_t count = serial_busy_wait();
       for(uint8_t i=0; i<count; i++) {
-        #if HAS_ITG3200()
+        #if HAS_ITG3200() || HAS_L3G4200D()
           my3IMU.acc.readAccel(&raw_values[0], &raw_values[1], &raw_values[2]);
           my3IMU.gyro.readGyroRaw(&raw_values[3], &raw_values[4], &raw_values[5]);
         #else // MPU6050
@@ -110,7 +111,7 @@ void loop() {
       Serial.print(",");
       Serial.print(my3IMU.acc_off_z);
       Serial.print("\n");
-      
+
       Serial.print("magn offset: ");
       Serial.print(my3IMU.magn_off_x);
       Serial.print(",");
@@ -118,7 +119,7 @@ void loop() {
       Serial.print(",");
       Serial.print(my3IMU.magn_off_z);
       Serial.print("\n");
-      
+
       Serial.print("acc scale: ");
       Serial.print(my3IMU.acc_scale_x);
       Serial.print(",");
@@ -126,7 +127,7 @@ void loop() {
       Serial.print(",");
       Serial.print(my3IMU.acc_scale_z);
       Serial.print("\n");
-      
+
       Serial.print("magn scale: ");
       Serial.print(my3IMU.magn_scale_x);
       Serial.print(",");
