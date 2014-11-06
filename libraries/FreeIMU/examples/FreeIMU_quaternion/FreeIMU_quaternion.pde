@@ -2,6 +2,7 @@
 #include <bma180.h>
 #include <HMC58X3.h>
 #include <ITG3200.h>
+#include <L3G4200D.h>
 #include <MS561101BA.h>
 #include <I2Cdev.h>
 #include <MPU60X0.h>
@@ -23,17 +24,16 @@ FreeIMU my3IMU = FreeIMU();
 void setup() {
   Serial.begin(115200);
   Wire.begin();
-  
+
   delay(5);
   my3IMU.init();
   delay(5);
 }
 
 
-void loop() { 
+void loop() {
   my3IMU.getQ(q);
   serialPrintFloatArr(q, 4);
   Serial.println("");
   delay(20);
 }
-
