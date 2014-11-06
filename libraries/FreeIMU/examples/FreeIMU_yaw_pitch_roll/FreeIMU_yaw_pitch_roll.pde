@@ -2,6 +2,7 @@
 #include <bma180.h>
 #include <HMC58X3.h>
 #include <ITG3200.h>
+#include <L3G4200D.h>
 #include <MS561101BA.h>
 #include <I2Cdev.h>
 #include <MPU60X0.h>
@@ -25,14 +26,14 @@ FreeIMU my3IMU = FreeIMU();
 void setup() {
   Serial.begin(115200);
   Wire.begin();
-  
+
   delay(5);
   my3IMU.init(); // the parameter enable or disable fast mode
   delay(5);
 }
 
-void loop() { 
-  
+void loop() {
+
   my3IMU.getYawPitchRoll(ypr);
   Serial.print("Yaw: ");
   Serial.print(ypr[0]);
@@ -41,6 +42,6 @@ void loop() {
   Serial.print(" Roll: ");
   Serial.print(ypr[2]);
   Serial.println("");
-  
+
   delay(10);
 }
